@@ -44,7 +44,7 @@ Can we please give it a try????
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/image3.jpg"),
+                image: AssetImage("assets/images/image06.jpg"),
                 fit: BoxFit.cover)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,7 +176,7 @@ I feel really good when we are together....
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                  "assets/images/image1.jpg",
+                  "assets/images/image07.jpg",
                 ),
                 fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
@@ -282,7 +282,7 @@ I really really loves you sooo sooo much....
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/image2.jpg"),
+                image: AssetImage("assets/images/image03.jpg"),
                 fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -406,7 +406,7 @@ I know what am doing penne.. I really wanna prioritise you...
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/image4.jpg"),
+                image: AssetImage("assets/images/image04.jpg"),
                 fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
         child: Column(

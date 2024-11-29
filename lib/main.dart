@@ -51,7 +51,6 @@ class _DateProposalScreenState extends State<DateProposalScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(125, 255, 17, 0),
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
