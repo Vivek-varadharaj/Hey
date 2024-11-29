@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hey/main.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
@@ -14,11 +17,11 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final String _text = """
-Do you know what I really want right now?
-Do you know am suppressing my urge to kiss you?
-Do you know each time you board in my car I want to kiss you?
-Yeah... I wanna kiss you chaaru... everytime I see you.. I really feel like kissing you... 
-So am asking you....
+I really wanna ask you one thing Chaaru... And I want you to be in this way... 
+Thats why I didnt ask this in the chat... 
+Can we be Vivi and Chaaru... Without any forced limitations.. 
+Why cant we have such a phase again penne... Let it last for whatever days it lasts... 
+Can we please give it a try????
 """;
   String _displayedText = "";
   int _currentIndex = 0;
@@ -34,11 +37,17 @@ So am asking you....
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 136, 36, 48),
-      body: Padding(
+      // backgroundColor: Color.fromARGB(255, 136, 36, 48),
+      body: Container(
         padding: const EdgeInsets.all(20),
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/image3.jpg"),
+                fit: BoxFit.cover)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -142,9 +151,9 @@ class IntroScreenTwo extends StatefulWidget {
 
 class _IntroScreenTwoState extends State<IntroScreenTwo> {
   final String _text = """
-I want you to know this is all I wanted... 
-I want you to know am happy now... am at peace...
-I want you to know I crave for your presence..
+I am sorry for always being in madly love with you... 
+I know it creates concerns for you...
+I feel really good when we are together....
 """;
   String _displayedText = "";
   int _currentIndex = 0;
@@ -160,11 +169,19 @@ I want you to know I crave for your presence..
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff00246B),
-      body: Padding(
+      // backgroundColor: Color(0xff00246B),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/image1.jpg",
+                ),
+                fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -177,52 +194,53 @@ I want you to know I crave for your presence..
             SizedBox(
               height: 16,
             ),
-            Text(
-              _displayedText,
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            AnimatedCrossFade(
+              duration: Duration(milliseconds: 500),
+              crossFadeState: _currentIndex == 0
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              secondChild: SizedBox(),
+              firstChild: Text(
+                _text,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            if (_displayedText.length == _text.length)
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white, shape: BoxShape.circle),
-                      child: IconButton(
-                        color: const Color(0xff990011),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IntroScreenThree(),
-                          ));
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xff00246B),
-                        ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white, shape: BoxShape.circle),
+                    child: IconButton(
+                      color: const Color(0xff990011),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => IntroScreenThree(),
+                        ));
+                      },
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Color(0xff00246B),
                       ),
                     ),
-                  ],
-                ),
-              )
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void _startTyping() {
-    _timer = Timer.periodic(Duration(milliseconds: _charDisplayDuration),
-        (Timer timer) {
-      if (_currentIndex < _text.length) {
-        setState(() {
-          _displayedText += _text[_currentIndex];
-          _currentIndex++;
-        });
-        // _playTypingSound(); // Play sound for each character
-      } else {
-        _timer.cancel();
-      }
+  void _startTyping() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    setState(() {
+      _currentIndex = 1;
     });
   }
 
@@ -240,8 +258,10 @@ class IntroScreenThree extends StatefulWidget {
 
 class _IntroScreenThreeState extends State<IntroScreenThree> {
   final String _text = """
-I don't want you to overthing about future... 
-I will become clingy may be... but thats because I want to be with you..
+Am having chills in stomach when am writing this Chaaru penne... 
+I have said I love you to you a lof of times... I meant it every damn time...
+But this time it hits different....
+I really really loves you sooo sooo much.... 
 """;
   String _displayedText = "";
   int _currentIndex = 0;
@@ -257,69 +277,76 @@ I will become clingy may be... but thats because I want to be with you..
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 38, 99, 79),
-      body: Padding(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/image2.jpg"),
+                fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Hey Chaaru,",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                  color: Color(0xffE7E8D1)),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Text(
-              _displayedText,
-              style: TextStyle(fontSize: 20, color: Color(0xffE7E8D1)),
-            ),
-            if (_displayedText.length == _text.length)
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffE7E8D1), shape: BoxShape.circle),
-                      child: IconButton(
-                        color: Color.fromARGB(255, 38, 99, 79),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Hey Chaaru,",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                    color: Color(0xffE7E8D1)),
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                _displayedText,
+                style: TextStyle(fontSize: 20, color: Color(0xffE7E8D1)),
+              ),
+              if (_displayedText.length == _text.length)
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffE7E8D1), shape: BoxShape.circle),
+                        child: IconButton(
                           color: Color.fromARGB(255, 38, 99, 79),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Color.fromARGB(255, 38, 99, 79),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffE7E8D1), shape: BoxShape.circle),
-                      child: IconButton(
-                        color: Color.fromARGB(255, 38, 99, 79),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IntroScreenFour(),
-                          ));
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward,
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffE7E8D1), shape: BoxShape.circle),
+                        child: IconButton(
                           color: Color.fromARGB(255, 38, 99, 79),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => IntroScreenFour(),
+                            ));
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            color: Color.fromARGB(255, 38, 99, 79),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              )
-          ],
+                    ],
+                  ),
+                )
+            ],
+          ),
         ),
       ),
     );
@@ -354,10 +381,10 @@ class IntroScreenFour extends StatefulWidget {
 
 class _IntroScreenFourState extends State<IntroScreenFour> {
   final String _text = """
-All I care is about us....
-All I need is us... Being vivi and chaaru...
-All I need is you being there with me.... 
-All I need is those phone calls... texts... you calling me vivi... and ofcourse our great great phone sex....
+I know you loves me too....
+I know you dont want me to go with other girls... Then why we should allow that to happen...
+I really like it when you say am yours.... 
+I know what am doing penne.. I really wanna prioritise you... 
 """;
   String _displayedText = "";
   int _currentIndex = 0;
@@ -373,11 +400,17 @@ All I need is those phone calls... texts... you calling me vivi... and ofcourse 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffB85042),
-      body: Padding(
+      // backgroundColor: Color(0xffB85042),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/image4.jpg"),
+                fit: BoxFit.cover)),
         padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -390,69 +423,70 @@ All I need is those phone calls... texts... you calling me vivi... and ofcourse 
             SizedBox(
               height: 16,
             ),
-            Text(
-              _displayedText,
-              style: TextStyle(fontSize: 20, color: Color(0xffE7E8D1)),
-            ),
-            if (_displayedText.length == _text.length)
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffE7E8D1), shape: BoxShape.circle),
-                      child: IconButton(
-                        color: const Color(0xff990011),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Color(0xffB85042),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Color(0xffE7E8D1), shape: BoxShape.circle),
-                      child: IconButton(
-                        color: const Color(0xffB85042),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IntroScreen(),
-                          ));
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          color: Color(0xffB85042),
-                        ),
-                      ),
-                    ),
-                  ],
+            AnimatedCrossFade(
+              duration: Duration(milliseconds: 500),
+              crossFadeState: _currentIndex == 0
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              secondChild: SizedBox(),
+              firstChild: Text(
+                _text,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
                 ),
-              )
+              ),
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffE7E8D1), shape: BoxShape.circle),
+                    child: IconButton(
+                      color: const Color(0xff990011),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Color(0xffB85042),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xffE7E8D1), shape: BoxShape.circle),
+                    child: IconButton(
+                      color: const Color(0xffB85042),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => IntroScreen(),
+                        ));
+                      },
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Color(0xffB85042),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void _startTyping() {
-    _timer = Timer.periodic(Duration(milliseconds: _charDisplayDuration),
-        (Timer timer) {
-      if (_currentIndex < _text.length) {
-        setState(() {
-          _displayedText += _text[_currentIndex];
-          _currentIndex++;
-        });
-        // _playTypingSound(); // Play sound for each character
-      } else {
-        _timer.cancel();
-      }
+  void _startTyping() async {
+    await Future.delayed(Duration(milliseconds: 200));
+    setState(() {
+      _currentIndex = 1;
     });
   }
 

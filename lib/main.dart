@@ -53,89 +53,97 @@ class _DateProposalScreenState extends State<DateProposalScreen>
     return Scaffold(
       backgroundColor: Color.fromARGB(125, 255, 17, 0),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // ScaleTransition(
-                  //   scale: _animation,
-                  //   child: Icon(
-                  //     Icons.favorite,
-                  //     size: 120,
-                  //     color: Colors.red,
-                  //   ),
-                  // ),
-                  // SizedBox(height: 20),
-                  Text(
-                    "May I kiss you right now????\nI will cherish these moments forever..",
-                    style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/image5.jpg"),
+                  fit: BoxFit.cover)),
+          child: Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // ScaleTransition(
+                    //   scale: _animation,
+                    //   child: Icon(
+                    //     Icons.favorite,
+                    //     size: 120,
+                    //     color: Colors.red,
+                    //   ),
+                    // ),
+                    // SizedBox(height: 20),
+                    Text(
+                      "Will you be my CHAARU and will you allow me to be your VIVI?",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  // SizedBox(height: 40),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: [
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         showDialog(
-                  //           context: context,
-                  //           builder: (BuildContext context) {
-                  //             return AlertDialog(
-                  //               title: Text('Yay! 💖'),
-                  //               content: Text(
-                  //                   'I can’t wait! I’ll plan something special!'),
-                  //               actions: [
-                  //                 TextButton(
-                  //                   onPressed: () {
-                  //                     Navigator.of(context).pop();
-                  //                   },
-                  //                   child: Text('Close'),
-                  //                 ),
-                  //               ],
-                  //             );
-                  //           },
-                  //         );
-                  //       },
-                  //       style: ElevatedButton.styleFrom(
-                  //         backgroundColor: Colors.white,
-                  //         padding: EdgeInsets.symmetric(
-                  //             horizontal: 32, vertical: 16),
-                  //         shape: StadiumBorder(),
-                  //       ),
-                  //       child: Text(
-                  //         'Yes 💕',
-                  //         style: TextStyle(fontSize: 20, color: Colors.red),
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 20),
-                  //     ElevatedButton(
-                  //       onPressed: () {
-                  //         sendWhatsAppMessage("919747753976",
-                  //             "Yeay.. Lets plan something!!!!!");
-                  //       },
-                  //       style: ElevatedButton.styleFrom(
-                  //         backgroundColor: Colors.blueGrey,
-                  //         padding: EdgeInsets.symmetric(
-                  //             horizontal: 32, vertical: 16),
-                  //         shape: StadiumBorder(),
-                  //       ),
-                  //       child: Text(
-                  //         'No 💔',
-                  //         style: TextStyle(fontSize: 20),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                ],
+                    // SizedBox(height: 40),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     ElevatedButton(
+                    //       onPressed: () {
+                    //         showDialog(
+                    //           context: context,
+                    //           builder: (BuildContext context) {
+                    //             return AlertDialog(
+                    //               title: Text('Yay! 💖'),
+                    //               content: Text(
+                    //                   'I can’t wait! I’ll plan something special!'),
+                    //               actions: [
+                    //                 TextButton(
+                    //                   onPressed: () {
+                    //                     Navigator.of(context).pop();
+                    //                   },
+                    //                   child: Text('Close'),
+                    //                 ),
+                    //               ],
+                    //             );
+                    //           },
+                    //         );
+                    //       },
+                    //       style: ElevatedButton.styleFrom(
+                    //         backgroundColor: Colors.white,
+                    //         padding: EdgeInsets.symmetric(
+                    //             horizontal: 32, vertical: 16),
+                    //         shape: StadiumBorder(),
+                    //       ),
+                    //       child: Text(
+                    //         'Yes 💕',
+                    //         style: TextStyle(fontSize: 20, color: Colors.red),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 20),
+                    //     ElevatedButton(
+                    //       onPressed: () {
+                    //         sendWhatsAppMessage("919747753976",
+                    //             "Yeay.. Lets plan something!!!!!");
+                    //       },
+                    //       style: ElevatedButton.styleFrom(
+                    //         backgroundColor: Colors.blueGrey,
+                    //         padding: EdgeInsets.symmetric(
+                    //             horizontal: 32, vertical: 16),
+                    //         shape: StadiumBorder(),
+                    //       ),
+                    //       child: Text(
+                    //         'No 💔',
+                    //         style: TextStyle(fontSize: 20),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
