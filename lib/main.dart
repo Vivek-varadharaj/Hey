@@ -2,20 +2,243 @@ import 'package:flutter/material.dart';
 import 'package:hey/intro_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'dart:math';
+import 'package:flutter/material.dart';
+
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart'; // For Ticker
+
 void main() {
-  runApp(DateProposalApp());
+  runApp(RoseDayApp());
 }
 
-class DateProposalApp extends StatelessWidget {
+class RoseDayApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Happy Rose Day!',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        fontFamily: 'Cursive', // Custom font for romantic feel
+      theme: ThemeData(fontFamily: 'Georgia'),
+      home: RoseDayScreen(),
+    );
+  }
+}
+
+class RoseDayScreen extends StatefulWidget {
+  @override
+  _RoseDayScreenState createState() => _RoseDayScreenState();
+}
+
+class _RoseDayScreenState extends State<RoseDayScreen>
+    with SingleTickerProviderStateMixin {
+  late final Ticker _ticker;
+  Duration _globalElapsed = Duration.zero;
+  final List<Rose> _roses = [];
+  final Random _random = Random();
+
+  @override
+  void initState() {
+    super.initState();
+    // Start a ticker that updates the global elapsed time and calls setState every frame.
+    _ticker = this.createTicker((elapsed) {
+      setState(() {
+        _globalElapsed = elapsed;
+      });
+    });
+    _ticker.start();
+
+    // Add new roses every 300ms.
+    _scheduleNewRose();
+  }
+
+  void _scheduleNewRose() {
+    Future.delayed(Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() {
+          // Always spawn the rose at the top (y = -50) using the current global elapsed time.
+          double screenWidth = MediaQuery.of(context).size.width;
+          _roses.add(Rose(
+            screenWidth: screenWidth,
+            spawnTime: _globalElapsed,
+          ));
+        });
+        _scheduleNewRose();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Animated background (optional)
+          AnimatedContainer(
+            duration: Duration(seconds: 3),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.pink.shade100, Colors.red.shade100],
+              ),
+            ),
+          ),
+          // Falling roses
+          for (var rose in _roses)
+            RoseWidget(
+              rose: rose,
+              globalElapsed: _globalElapsed,
+              screenHeight: screenHeight,
+            ),
+          // Centered message
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Happy Rose Day, My Love! 🌹',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red.shade900,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 10,
+                        color: Colors.white,
+                        offset: Offset(2, 2),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Chaaru, Every rose reminds me of your beauty and love.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.pink.shade800,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 5,
+                        color: Colors.white,
+                        offset: Offset(1, 1),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      home: IntroScreenTwo(),
+    );
+  }
+}
+
+/// A class that holds the properties for a falling rose.
+class Rose {
+  /// Horizontal position as a fraction of the screen width (0.0 to 1.0).
+  double x;
+
+  /// (Not used in calculation—always starts at the top.)
+  double y;
+
+  /// Initial rotation angle.
+  double rotation;
+
+  /// Falling speed in pixels per second.
+  double speed;
+
+  /// Horizontal drift factor.
+  double drift;
+
+  /// The time at which this rose started falling.
+  Duration spawnTime;
+
+  Rose({required double screenWidth, required this.spawnTime})
+      : x = Random().nextDouble(),
+        y = -50, // Always start at the top.
+        rotation = Random().nextDouble() * 2 * pi,
+        speed = 100 + Random().nextDouble() * 150,
+        drift = (Random().nextDouble() - 0.5) * 2;
+
+  /// Reset the rose to start falling again from the top.
+  void reset(Duration currentTime) {
+    x = Random().nextDouble();
+    y = -50;
+    rotation = Random().nextDouble() * 2 * pi;
+    speed = 100 + Random().nextDouble() * 150;
+    drift = (Random().nextDouble() - 0.5) * 2;
+    spawnTime = currentTime;
+  }
+}
+
+/// A widget that animates an individual rose.
+class RoseWidget extends StatelessWidget {
+  final Rose rose;
+  final Duration globalElapsed;
+  final double screenHeight;
+
+  const RoseWidget({
+    Key? key,
+    required this.rose,
+    required this.globalElapsed,
+    required this.screenHeight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Calculate how many seconds have passed since this rose was spawned.
+    final elapsedSeconds =
+        (globalElapsed - rose.spawnTime).inMilliseconds / 1000.0;
+
+    // Compute the new vertical position.
+    double dy = rose.y + rose.speed * elapsedSeconds;
+
+    // Compute a gentle horizontal drift.
+    double screenWidth = MediaQuery.of(context).size.width;
+    double dx = rose.x * screenWidth + sin(elapsedSeconds * rose.drift) * 20;
+
+    // If the rose has fallen past the bottom of the screen, reset it.
+    if (dy > screenHeight) {
+      rose.reset(globalElapsed);
+      // Recalculate elapsedSeconds after resetting.
+      // (It will be nearly 0 so the rose starts from the top.)
+      return const SizedBox.shrink();
+    }
+
+    return Positioned(
+      left: dx,
+      top: dy,
+      child: Transform.rotate(
+        angle: rose.rotation + elapsedSeconds,
+        child: Opacity(
+          opacity: 0.8,
+          child: Image.asset(
+            'assets/images/rose.png', // Ensure this asset is available.
+            width: 40,
+            height: 40,
+          ),
+        ),
+      ),
     );
   }
 }
